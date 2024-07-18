@@ -1,0 +1,84 @@
+{
+  "build": {
+    "beforeBuildCommand": "",
+    "beforeDevCommand": "",
+    "devPath": "tauri-wrapper",
+    "distDir": "tauri-wrapper"
+  },
+  "package": {
+    "productName": "kinode-desktop-app",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "shell": {
+        "sidecar": true,
+        "scope": [
+          {
+            "name": "bin/kinode",
+            "sidecar": true,
+            "args": [
+              "home",
+              "--rpc",
+              "wss://opt-mainnet.g.alchemy.com/v2/phOnE7X9A3mnzAVjfyR1idu1yYX1mqSL",
+              "--detached"
+            ]
+          }
+        ]
+      },
+      "fs": {
+        "all": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "Lifestyle",
+      "copyright": "SYBIL TECHNOLOGIES AG",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [
+        "bin/kinode"
+      ],
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "kinode.org",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 900,
+        "resizable": true,
+        "title": "kinode",
+        "width": 1200
+      }
+    ]
+  }
+}
