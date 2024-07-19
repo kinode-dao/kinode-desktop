@@ -2,10 +2,21 @@
 
 <head>
     <script>
-        setTimeout(() => {
-            window.location.href = `http://localhost:8080`;
-        }, 1000);
+        function checkAndRedirect() {
+            fetch('http://localhost:8080', { mode: 'no-cors' })
+                .then(() => {
+                    window.location.href = 'http://localhost:8080';
+                })
+                .catch(() => {
+                    setTimeout(checkAndRedirect, 1000);
+                });
+        }
+        checkAndRedirect();
     </script>
 </head>
+
+<body>
+    <h1>Kinode booting...</h1>
+</body>
 
 </html>

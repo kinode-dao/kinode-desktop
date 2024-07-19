@@ -5,7 +5,14 @@ use tauri::api::process::{Command, CommandEvent};
 
 fn main() {
     tauri::Builder::default()
-        .setup(|_app| {
+        .setup(|app| {
+            let dir = app
+                .handle()
+                .path_resolver()
+                .app_data_dir()
+                .expect("Failed to get app data dir");
+            std::fs::create_dir_all(&dir).expect("Failed to create dir");
+            println!("dir: {}", dir.display());
             tauri::async_runtime::spawn(async move {
                 let (mut rx, _child) = Command::new_sidecar("kinode")
                     .expect("failed to setup `kinode` sidecar")
@@ -17,7 +24,7 @@ fn main() {
                         "--port",
                         "8080",
                     ])
-                    .current_dir("nodes".into())
+                    .current_dir(dir)
                     .spawn()
                     .expect("Failed to spawn kinode");
                 // can potentially inject terminal messages into the UI on homepage
