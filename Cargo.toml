@@ -1,18 +1,18 @@
 [package]
-name = "app"
+name = "kinode-desktop"
 version = "0.1.0"
 description = "Kinode Desktop App"
 authors = ["dr-frmr"]
 license = ""
-repository = ""
-default-run = "app"
+repository = "https://github.com/kinode-dao/kinode-desktop"
+default-run = "kinode-desktop"
 edition = "2021"
-rust-version = "1.60"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# rust-version = "1.60" (does tauri need this?)
 
 [build-dependencies]
 tauri-build = { version = "1.5.3", features = [] }
+reqwest = { version = "0.11", features = ["blocking"] }
+zip = "2.1.6"
 
 [dependencies]
 serde_json = "1.0"

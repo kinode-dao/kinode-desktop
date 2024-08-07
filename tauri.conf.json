@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "kinode-desktop-app",
+    "productName": "kinode-desktop",
     "version": "0.1.0"
   },
   "tauri": {
@@ -19,12 +19,7 @@
           {
             "name": "bin/kinode",
             "sidecar": true,
-            "args": [
-              "home",
-              "--rpc",
-              "wss://opt-mainnet.g.alchemy.com/v2/phOnE7X9A3mnzAVjfyR1idu1yYX1mqSL",
-              "--detached"
-            ]
+            "args": []
           }
         ]
       },

@@ -7,9 +7,14 @@ Release coming soon
 
 TODO:
 
-- build step that grabs latest kinode binary release
-- get binary for linux and mac, use right one for build
 - set up RPC for each user
-- set up node storage on disk to handle multiple nodes
 - create CD pipeline
 - set up auto-update
+
+
+### Building from source
+
+1. Clone the repo
+2. Run `cargo tauri dev`
+
+As needed: delete `bin` directory to force redownloading the Kinode binaries
