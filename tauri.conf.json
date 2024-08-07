@@ -3,7 +3,8 @@
     "beforeBuildCommand": "",
     "beforeDevCommand": "",
     "devPath": "tauri-wrapper",
-    "distDir": "tauri-wrapper"
+    "distDir": "tauri-wrapper",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "kinode-desktop-app",
