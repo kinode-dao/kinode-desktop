@@ -127,7 +127,7 @@
         </div>
         <div>
             <label for="node-port">Node port (optional, default 8080):</label>
-            <input type="number" id="node-port" name="node-port">
+            <input type="number" id="node-port" name="node-port" min="8000" max="65535">
         </div>
         <div>
             <label for="node-rpc">Node RPC (optional):</label>
@@ -175,7 +175,7 @@
                     window.location.href = `http://localhost:${port}`;
                 })
                 .catch(() => {
-                    setTimeout(checkAndRedirect, 300);
+                    setTimeout(checkAndRedirect, 1000);
                 });
         }
     </script>

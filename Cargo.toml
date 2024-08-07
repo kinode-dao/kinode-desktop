@@ -7,7 +7,8 @@ license = ""
 repository = "https://github.com/kinode-dao/kinode-desktop"
 default-run = "kinode-desktop"
 edition = "2021"
-# rust-version = "1.60" (does tauri need this?)
+# does tauri need this?
+# rust-version = "1.60"
 
 [build-dependencies]
 tauri-build = { version = "1.5.3", features = [] }

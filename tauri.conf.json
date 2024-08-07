@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "kinode-desktop",
+    "productName": "Kinode",
     "version": "0.1.0"
   },
   "tauri": {
@@ -19,7 +19,12 @@
           {
             "name": "bin/kinode",
             "sidecar": true,
-            "args": []
+            "args": [
+              "home",
+              "--rpc",
+              "--port",
+              "--detached"
+            ]
           }
         ]
       },

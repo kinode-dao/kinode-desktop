@@ -68,9 +68,12 @@ fn main() {
 
         let mut args = vec![&node_name, "--detached"];
 
-        if let Ok(_) = node_port.parse::<u16>() {
+        if node_port.parse::<u16>().is_ok() {
             args.push("--port");
             args.push(&node_port);
+        } else {
+            args.push("--port");
+            args.push("8080");
         }
 
         if let Ok(_) = tauri::Url::parse(&node_rpc) {
@@ -78,12 +81,15 @@ fn main() {
             args.push(&node_rpc);
         }
 
+        println!("Starting kinode with args: {:?} in dir {:?}", args, dir);
+
         let (mut rx, _child) = Command::new_sidecar("kinode")
-            .expect("failed to setup `kinode` sidecar")
+            .expect("failed to setup kinode sidecar")
             .args(args)
             .current_dir(dir)
             .spawn()
             .expect("Failed to spawn kinode");
+
         // can potentially inject terminal messages into the UI on homepage
         while let Some(event) = rx.recv().await {
             if let CommandEvent::Stdout(line) = event {
