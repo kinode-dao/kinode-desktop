@@ -101,6 +101,10 @@
             background-image: radial-gradient(circle at -1% -47%, #4700002b 7%, transparent 58.05%), radial-gradient(circle at 81% 210%, #d6430550 17%, transparent 77.05%);
             min-width: 100vw;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
         }
 
         form {
@@ -114,6 +118,18 @@
 
         input {
             float: right;
+            width: 175px;
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 10px;
+            float: right;
+        }
+
+        li {
+            cursor: pointer;
+            text-decoration: underline wavy;
         }
     </style>
 </head>
@@ -122,20 +138,27 @@
     <h1>Kinode</h1>
     <form id="node-form">
         <div>
-            <label for="node-name">Node name:</label>
+            <label for="node-name">Node home folder:</label>
             <input type="text" id="node-name" name="node-name" required>
         </div>
         <div>
-            <label for="node-port">Node port (optional, default 8080):</label>
-            <input type="number" id="node-port" name="node-port" min="8000" max="65535">
+            <label for="node-port">Node port:</label>
+            <input type="number" id="node-port" name="node-port" min="8000" max="65535" placeholder="(optional)">
         </div>
         <div>
-            <label for="node-rpc">Node RPC (optional):</label>
-            <input type="text" id="node-rpc" name="node-rpc">
+            <label for="node-rpc">Node RPC:</label>
+            <input type="text" id="node-rpc" name="node-rpc" placeholder="(optional)">
         </div>
         <button type="submit">Submit</button>
     </form>
+
+    <div id="node-dirs">
+        <h2>Existing home folders</h2>
+        <ul id="node-dirs-list"></ul>
+    </div>
     <script>
+        getDirs();
+
         const form = document.querySelector('#node-form');
         const nodeName = document.querySelector('#node-name');
         const nodePort = document.querySelector('#node-port');
@@ -177,6 +200,26 @@
                 .catch(() => {
                     setTimeout(checkAndRedirect, 1000);
                 });
+        }
+
+        function getDirs() {
+            window.__TAURI__.invoke('get_dirs')
+                .then(dirs => {
+                    const nodeDirsList = document.querySelector('#node-dirs-list');
+                    nodeDirsList.innerHTML = '';
+                    dirs.forEach(dir => {
+                        const li = document.createElement('li');
+                        li.textContent = dir;
+                        nodeDirsList.appendChild(li);
+                        li.addEventListener('click', () => {
+                            nodeName.value = dir;
+                        });
+                    });
+                })
+                .then(() => {
+                    setTimeout(getDirs, 1000);
+                })
+                .catch(console.error);
         }
     </script>
 </body>

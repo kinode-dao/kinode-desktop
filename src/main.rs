@@ -14,14 +14,15 @@ struct Wrap(Arc<State>);
 
 #[derive(Default)]
 struct State {
-    node_name: Arc<Mutex<String>>,
+    node_home: Arc<Mutex<String>>,
     node_port: Arc<Mutex<String>>,
     node_rpc: Arc<Mutex<String>>,
+    dirs: Arc<Mutex<Vec<String>>>,
 }
 
 #[tauri::command]
 fn set_node_name(name: String, state: tauri::State<'_, Wrap>) {
-    *state.0.node_name.lock().unwrap() = name;
+    *state.0.node_home.lock().unwrap() = name;
 }
 
 #[tauri::command]
@@ -32,6 +33,11 @@ fn set_node_port(port: String, state: tauri::State<'_, Wrap>) {
 #[tauri::command]
 fn set_node_rpc(rpc: String, state: tauri::State<'_, Wrap>) {
     *state.0.node_rpc.lock().unwrap() = rpc;
+}
+
+#[tauri::command]
+fn get_dirs(state: tauri::State<'_, Wrap>) -> Vec<String> {
+    state.0.dirs.lock().unwrap().clone()
 }
 
 #[tauri::command]
@@ -57,16 +63,32 @@ fn main() {
             }
         };
 
+        // read all directories inside dir
+        let dirs = std::fs::read_dir(&dir).unwrap();
+        let dirs = dirs
+            .filter_map(|dir| dir.ok())
+            .map(|dir| {
+                dir.path()
+                    .display()
+                    .to_string()
+                    .split("/")
+                    .last()
+                    .unwrap()
+                    .to_string()
+            })
+            .collect::<Vec<_>>();
+        *state_clone.dirs.lock().unwrap() = dirs;
+
         // Wait for the boot signal
         while !boot_bool_clone.0.load(std::sync::atomic::Ordering::Relaxed) {
             std::thread::sleep(std::time::Duration::from_millis(100));
         }
 
-        let node_name = state_clone.node_name.lock().unwrap().to_string();
+        let node_home = state_clone.node_home.lock().unwrap().to_string();
         let node_port = state_clone.node_port.lock().unwrap().to_string();
         let node_rpc = state_clone.node_rpc.lock().unwrap().to_string();
 
-        let mut args = vec![&node_name, "--detached"];
+        let mut args = vec![&node_home, "--detached"];
 
         if node_port.parse::<u16>().is_ok() {
             args.push("--port");
@@ -115,6 +137,7 @@ fn main() {
             set_node_name,
             set_node_port,
             set_node_rpc,
+            get_dirs,
             boot,
         ])
         .run(tauri::generate_context!())
