@@ -139,15 +139,18 @@
     <form id="node-form">
         <div>
             <label for="node-name">Node home folder:</label>
-            <input type="text" id="node-name" name="node-name" required>
+            <input type="text" id="node-name" name="node-name" required
+                title="A folder to store this node in on-disk. This does not necessarily need to match the node's username.">
         </div>
         <div>
             <label for="node-port">Node port:</label>
-            <input type="number" id="node-port" name="node-port" min="8000" max="65535" placeholder="(optional)">
+            <input type="number" id="node-port" name="node-port" min="8000" max="65535" placeholder="(optional)"
+                title="Enter the port the node should locally serve its frontend on. This should be an unused port between 8000 and 65535.">
         </div>
         <div>
             <label for="node-rpc">Node RPC:</label>
-            <input type="text" id="node-rpc" name="node-rpc" placeholder="(optional)">
+            <input type="text" id="node-rpc" name="node-rpc" placeholder="(optional)"
+                title="Enter the RPC URL for the node. This should be an Optimism mainnet WebSockets RPC URL.">
         </div>
         <button type="submit">Submit</button>
     </form>

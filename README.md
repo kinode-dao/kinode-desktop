@@ -7,7 +7,7 @@ Release coming soon
 
 TODO:
 
-- set up RPC for each user
+- set up RPC for each user?
 - create CD pipeline
 - set up auto-update
 
@@ -18,3 +18,5 @@ TODO:
 2. Run `cargo tauri dev`
 
 As needed: delete `bin` directory to force redownloading the Kinode binaries
+
+When ready to build, use `cargo tauri build`.
