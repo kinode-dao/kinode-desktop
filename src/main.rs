@@ -105,7 +105,7 @@ fn main() {
 
         println!("Starting kinode with args: {:?} in dir {:?}", args, dir);
 
-        let (mut rx, _child) = Command::new_sidecar("kinode")
+        let (mut rx, _child) = Command::new_sidecar("kinode-0.9.2")
             .expect("failed to setup kinode sidecar")
             .args(args)
             .current_dir(dir)
