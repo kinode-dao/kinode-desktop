@@ -1,3 +1,5 @@
+use std::os::unix::fs::PermissionsExt;
+
 /// note: update this as new versions are released
 const KINODE_URL: &str = "https://github.com/kinode-dao/kinode/releases/download/v0.9.2/";
 const APPLE_SILICON_BINARY: &str = "kinode-arm64-apple-darwin.zip";
@@ -45,4 +47,8 @@ fn download_and_unzip_binary(url: &str, triple: &str) {
         &mut std::fs::File::create(&binary_path).expect("Failed to create binary file"),
     )
     .expect("Failed to copy binary");
+
+    // change permissions to executable
+    std::fs::set_permissions(&binary_path, std::fs::Permissions::from_mode(0o755))
+        .expect("Failed to change permissions");
 }
