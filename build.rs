@@ -1,7 +1,7 @@
 use std::os::unix::fs::PermissionsExt;
 
 /// note: update this as new versions are released
-const KINODE_URL: &str = "https://github.com/kinode-dao/kinode/releases/download/v0.9.2/";
+const KINODE_URL: &str = "https://github.com/kinode-dao/kinode/releases/download/v0.9.3/";
 const APPLE_SILICON_BINARY: &str = "kinode-arm64-apple-darwin.zip";
 const APPLE_INTEL_BINARY: &str = "kinode-x86_64-apple-darwin.zip";
 const LINUX_BINARY: &str = "kinode-x86_64-unknown-linux-gnu.zip";
@@ -41,7 +41,7 @@ fn download_and_unzip_binary(url: &str, triple: &str) {
     let mut binary = archive.by_name("kinode").expect("Failed to find binary");
 
     // save binary to bin folder with its triple appended
-    let binary_path = format!("bin/kinode-0.9.2-{}", triple);
+    let binary_path = format!("bin/kinode-0.9.3-{}", triple);
     std::io::copy(
         &mut binary,
         &mut std::fs::File::create(&binary_path).expect("Failed to create binary file"),

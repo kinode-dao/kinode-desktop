@@ -17,7 +17,7 @@
         "sidecar": true,
         "scope": [
           {
-            "name": "bin/kinode-0.9.2",
+            "name": "bin/kinode-0.9.3",
             "sidecar": true,
             "args": true
           }
@@ -43,7 +43,7 @@
         "depends": []
       },
       "externalBin": [
-        "bin/kinode-0.9.2"
+        "bin/kinode-0.9.3"
       ],
       "icon": [
         "icons/icon.ico",
@@ -83,7 +83,7 @@
         "fullscreen": false,
         "height": 900,
         "resizable": true,
-        "title": "kinode 0.9.2",
+        "title": "kinode 0.9.3",
         "width": 1200
       }
     ]
