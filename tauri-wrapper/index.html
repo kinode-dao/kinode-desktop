@@ -195,18 +195,16 @@
                 window.__TAURI__.invoke('boot')
                     .catch(console.error);
             }, 300);
-            checkAndRedirect();
+            checkAndRedirect((nodePort.value) ? nodePort.value : "8080");
         });
 
-        let port = (nodePort.value) ? nodePort.value : "8080";
-
-        function checkAndRedirect() {
+        function checkAndRedirect(port) {
             fetch(`http://localhost:${port}`, { mode: 'no-cors' })
                 .then(() => {
                     window.location.href = `http://localhost:${port}`;
                 })
                 .catch(() => {
-                    setTimeout(checkAndRedirect, 1000);
+                    setTimeout(() => checkAndRedirect(port), 1000);
                 });
         }
 
