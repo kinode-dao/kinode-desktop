@@ -1,14 +1,12 @@
 [package]
 name = "kinode-desktop"
-version = "0.1.0"
+version = "0.1.1"
 description = "Kinode Desktop App"
 authors = ["dr-frmr"]
-license = ""
+license = "Apache-2.0"
 repository = "https://github.com/kinode-dao/kinode-desktop"
 default-run = "kinode-desktop"
 edition = "2021"
-# does tauri need this?
-# rust-version = "1.60"
 
 [build-dependencies]
 tauri-build = { version = "1.5.3", features = [] }

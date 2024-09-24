@@ -2,15 +2,7 @@
 
 Currently supports MacOS and Linux
 
-Release coming soon
-
-
-TODO:
-
-- set up RPC for each user?
-- create CD pipeline
-- set up auto-update
-
+In pre-release, release coming soon™
 
 ### Building from source
 
