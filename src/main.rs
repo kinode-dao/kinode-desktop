@@ -88,7 +88,7 @@ fn main() {
         let node_port = state_clone.node_port.lock().unwrap().to_string();
         let node_rpc = state_clone.node_rpc.lock().unwrap().to_string();
 
-        let mut args = vec![&node_home, "--detached"];
+        let mut args = vec![&node_home, "--detached", "--verbosity", "2"];
 
         if node_port.parse::<u16>().is_ok() {
             args.push("--port");
@@ -105,7 +105,7 @@ fn main() {
 
         println!("Starting kinode with args: {:?} in dir {:?}", args, dir);
 
-        let (mut rx, _child) = Command::new_sidecar("kinode-0.9.3")
+        let (mut rx, _child) = Command::new_sidecar("kinode-0.9.4")
             .expect("failed to setup kinode sidecar")
             .args(args)
             .current_dir(dir)
