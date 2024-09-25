@@ -14,6 +14,7 @@
     "allowlist": {
       "all": true,
       "shell": {
+        "open": true,
         "sidecar": true,
         "scope": [
           {
@@ -33,6 +34,13 @@
       },
       "dialog": {
         "all": true
+      },
+      "http": {
+        "all": true,
+        "scope": [
+          "http://*",
+          "https://*"
+        ]
       }
     },
     "bundle": {
@@ -68,7 +76,23 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": null,
+      "dangerousRemoteDomainIpcAccess": [
+        {
+          "domain": "localhost",
+          "windows": [
+            "main"
+          ],
+          "enableTauriAPI": true
+        },
+        {
+          "domain": "http://localhost",
+          "windows": [
+            "main"
+          ],
+          "enableTauriAPI": true
+        }
+      ]
     },
     "updater": {
       "active": true,

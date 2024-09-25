@@ -88,7 +88,7 @@ fn main() {
         let node_port = state_clone.node_port.lock().unwrap().to_string();
         let node_rpc = state_clone.node_rpc.lock().unwrap().to_string();
 
-        let mut args = vec![&node_home, "--detached", "--verbosity", "2"];
+        let mut args = vec![&node_home, "--detached"];
 
         if node_port.parse::<u16>().is_ok() {
             args.push("--port");
