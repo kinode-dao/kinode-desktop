@@ -182,21 +182,21 @@
                 return;
             }
 
-            window.__TAURI__.invoke('set_node_name', { name: nodeName.value })
-                .catch(console.error);
+            // window.__TAURI__.invoke('set_node_name', { name: nodeName.value })
+            //     .catch(console.error);
 
-            window.__TAURI__.invoke('set_node_port', { port: nodePort.value })
-                .catch(console.error);
+            // window.__TAURI__.invoke('set_node_port', { port: nodePort.value })
+            //     .catch(console.error);
 
-            window.__TAURI__.invoke('set_node_rpc', { rpc: nodeRpc.value })
-                .catch(console.error);
+            // window.__TAURI__.invoke('set_node_rpc', { rpc: nodeRpc.value })
+            //     .catch(console.error);
 
-            // wait a bit
-            setTimeout(() => {
-                // call boot
-                window.__TAURI__.invoke('boot')
-                    .catch(console.error);
-            }, 300);
+            // // wait a bit
+            // setTimeout(() => {
+            //     // call boot
+            //     window.__TAURI__.invoke('boot')
+            //         .catch(console.error);
+            // }, 300);
             checkAndRedirect((nodePort.value) ? nodePort.value : "8080");
         });
 
@@ -211,23 +211,23 @@
         }
 
         function getDirs() {
-            window.__TAURI__.invoke('get_dirs')
-                .then(dirs => {
-                    const nodeDirsList = document.querySelector('#node-dirs-list');
-                    nodeDirsList.innerHTML = '';
-                    dirs.forEach(dir => {
-                        const li = document.createElement('li');
-                        li.textContent = dir;
-                        nodeDirsList.appendChild(li);
-                        li.addEventListener('click', () => {
-                            nodeName.value = dir;
-                        });
-                    });
-                })
-                .then(() => {
-                    setTimeout(getDirs, 1000);
-                })
-                .catch(console.error);
+            // window.__TAURI__.invoke('get_dirs')
+            //     .then(dirs => {
+            //         const nodeDirsList = document.querySelector('#node-dirs-list');
+            //         nodeDirsList.innerHTML = '';
+            //         dirs.forEach(dir => {
+            //             const li = document.createElement('li');
+            //             li.textContent = dir;
+            //             nodeDirsList.appendChild(li);
+            //             li.addEventListener('click', () => {
+            //                 nodeName.value = dir;
+            //             });
+            //         });
+            //     })
+            //     .then(() => {
+            //         setTimeout(getDirs, 1000);
+            //     })
+            //     .catch(console.error);
         }
     </script>
 </body>
