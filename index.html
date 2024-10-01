@@ -166,70 +166,7 @@
         <h2>Existing home folders</h2>
         <ul id="node-dirs-list"></ul>
     </div>
-    <script>
-        getDirs();
-
-        const form = document.querySelector('#node-form');
-        const nodeName = document.querySelector('#node-name');
-        const nodePort = document.querySelector('#node-port');
-        const nodeRpc = document.querySelector('#node-rpc');
-
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            if (!nodeName.value) {
-                alert('Node name is required');
-                return;
-            }
-
-            // window.__TAURI__.invoke('set_node_name', { name: nodeName.value })
-            //     .catch(console.error);
-
-            // window.__TAURI__.invoke('set_node_port', { port: nodePort.value })
-            //     .catch(console.error);
-
-            // window.__TAURI__.invoke('set_node_rpc', { rpc: nodeRpc.value })
-            //     .catch(console.error);
-
-            // // wait a bit
-            // setTimeout(() => {
-            //     // call boot
-            //     window.__TAURI__.invoke('boot')
-            //         .catch(console.error);
-            // }, 300);
-            checkAndRedirect((nodePort.value) ? nodePort.value : "8080");
-        });
-
-        function checkAndRedirect(port) {
-            fetch(`http://localhost:${port}`, { mode: 'no-cors' })
-                .then(() => {
-                    window.location.href = `http://localhost:${port}`;
-                })
-                .catch(() => {
-                    setTimeout(() => checkAndRedirect(port), 1000);
-                });
-        }
-
-        function getDirs() {
-            // window.__TAURI__.invoke('get_dirs')
-            //     .then(dirs => {
-            //         const nodeDirsList = document.querySelector('#node-dirs-list');
-            //         nodeDirsList.innerHTML = '';
-            //         dirs.forEach(dir => {
-            //             const li = document.createElement('li');
-            //             li.textContent = dir;
-            //             nodeDirsList.appendChild(li);
-            //             li.addEventListener('click', () => {
-            //                 nodeName.value = dir;
-            //             });
-            //         });
-            //     })
-            //     .then(() => {
-            //         setTimeout(getDirs, 1000);
-            //     })
-            //     .catch(console.error);
-        }
-    </script>
+    <script src="./main.js"></script>
 </body>
 
 </html>
