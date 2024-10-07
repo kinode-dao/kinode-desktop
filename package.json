@@ -22,11 +22,15 @@
     "mas": {
       "type": "distribution",
       "category": "public.app-category.productivity",
-      "entitlements": "build/entitlements.mas.plist",
-      "icon": "icons/icon.icns",
+      "entitlements": "entitlements.plist",
+      "icon": "icons/icon.ico",
       "binaries": [
         "dist/mas/kinode-desktop.app/Contents/Resources/bin/kinode"
       ]
+    },
+    "mac": {
+      "entitlements": "entitlements.plist",
+      "entitlementsInherit": "entitlements.plist"
     }
   },
   "repository": {

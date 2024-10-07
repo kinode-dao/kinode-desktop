@@ -3,9 +3,15 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
   packagerConfig: {
-    icon: './icons/icon.png',
+    icon: 'icons/icon.png',
     asar: true,
-    osxSign: {},
+    osxSign: {
+      hardenedRuntime: true,
+      gatekeeperAssess: false,
+      entitlements: 'entitlements.plist',
+      'entitlements-inherit': 'entitlements.plist',
+      verbose: true,
+    },
     osxNotarize: {
       appleId: process.env.APPLE_ID,
       appleIdPassword: process.env.APPLE_PASSWORD,
@@ -17,24 +23,20 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        setupIcon: './icons/icon.ico'
+        setupIcon: 'icons/icon.ico'
       },
-    },
-    {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
     },
     {
       name: '@electron-forge/maker-dmg',
       config: {
-        icon: './icons/icon.ico'
+        icon: 'icons/icon.ico'
       }
     },
     {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
-          icon: './icons/icon.png'
+          icon: 'icons/icon.png'
         }
       },
     },
