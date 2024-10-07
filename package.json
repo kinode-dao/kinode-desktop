@@ -1,0 +1,57 @@
+{
+  "name": "kinode-desktop",
+  "version": "0.3.0",
+  "description": "Kinode, for the desktop",
+  "main": "index.js",
+  "scripts": {
+    "electron": "electron .",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "build": {
+    "extraFiles": [
+      {
+        "from": "build/mac/bin",
+        "to": "Resources/bin",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mas": {
+      "type": "distribution",
+      "category": "public.app-category.productivity",
+      "entitlements": "build/entitlements.mas.plist",
+      "icon": "icons/icon.icns",
+      "binaries": [
+        "dist/mas/kinode-desktop.app/Contents/Resources/bin/kinode"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kinode-dao/kinode-desktop.git"
+  },
+  "author": "dr-frmr",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kinode-dao/kinode-desktop/issues"
+  },
+  "homepage": "https://kinode.org",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.5.0",
+    "@electron-forge/maker-deb": "^7.5.0",
+    "@electron-forge/maker-rpm": "^7.5.0",
+    "@electron-forge/maker-squirrel": "^7.5.0",
+    "@electron-forge/maker-zip": "^7.5.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
+    "@electron-forge/plugin-fuses": "^7.5.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^32.1.2",
+    "electron-root-path": "^1.1.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  }
+}
