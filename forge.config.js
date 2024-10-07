@@ -3,21 +3,40 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
   packagerConfig: {
+    icon: './icons/icon.png',
     asar: true,
+    osxSign: {},
+    osxNotarize: {
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_PASSWORD,
+      teamId: process.env.APPLE_TEAM_ID
+    }
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        setupIcon: './icons/icon.ico'
+      },
     },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin'],
     },
     {
+      name: '@electron-forge/maker-dmg',
+      config: {
+        icon: './icons/icon.ico'
+      }
+    },
+    {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {
+        options: {
+          icon: './icons/icon.png'
+        }
+      },
     },
     {
       name: '@electron-forge/maker-rpm',
@@ -41,4 +60,17 @@ module.exports = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'kinode-dao',
+          name: 'kinode-desktop'
+        },
+        prerelease: true,
+        generateReleaseNotes: true
+      }
+    }
+  ]
 };
