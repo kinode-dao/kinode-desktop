@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const fs = require('fs');
 const path = require('path');
 const { rootPath } = require('electron-root-path');
 const { spawn } = require('child_process');
@@ -55,6 +56,10 @@ const createWindow = () => {
     })
 
     win.loadFile('index.html')
+
+    // read nodes from homeFoldersPath and pass to frontend
+    const nodes = fs.readdirSync(homeFoldersPath);
+    win.webContents.send('nodes', nodes);
 }
 
 app.whenReady().then(() => {

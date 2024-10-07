@@ -4,12 +4,24 @@ function sendToBackend(formData) {
     ipcRenderer.send("node-form", formData);
 }
 
-getDirs();
-
 const form = document.querySelector('#node-form');
 const nodeName = document.querySelector('#node-name');
 const nodePort = document.querySelector('#node-port');
 const nodeRpc = document.querySelector('#node-rpc');
+
+// populate node dirs list with nodes from backend
+ipcRenderer.on('nodes', (event, nodes) => {
+    const nodeDirsList = document.querySelector('#node-dirs-list');
+    nodeDirsList.innerHTML = '';
+    nodes.forEach(node => {
+        const li = document.createElement('li');
+        li.textContent = node;
+        nodeDirsList.appendChild(li);
+        li.addEventListener('click', () => {
+            nodeName.value = node;
+        });
+    });
+});
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -38,24 +50,4 @@ function checkAndRedirect(port) {
         .catch(() => {
             setTimeout(() => checkAndRedirect(port), 1000);
         });
-}
-
-function getDirs() {
-    // window.__TAURI__.invoke('get_dirs')
-    //     .then(dirs => {
-    //         const nodeDirsList = document.querySelector('#node-dirs-list');
-    //         nodeDirsList.innerHTML = '';
-    //         dirs.forEach(dir => {
-    //             const li = document.createElement('li');
-    //             li.textContent = dir;
-    //             nodeDirsList.appendChild(li);
-    //             li.addEventListener('click', () => {
-    //                 nodeName.value = dir;
-    //             });
-    //         });
-    //     })
-    //     .then(() => {
-    //         setTimeout(getDirs, 1000);
-    //     })
-    //     .catch(console.error);
 }

@@ -140,9 +140,9 @@
     <h1>Kinode</h1>
     <form id="node-form">
         <div>
-            <label for="node-name">Node home folder:</label>
+            <label for="node-name">Node name:</label>
             <input type="text" id="node-name" name="node-name" required
-                title="A folder to store this node in on-disk. This does not necessarily need to match the node's username.">
+                title="The node's name will be used to store its home folder on disk. Note that this does not register the name in Kinode.">
         </div>
         <div>
             <details>
@@ -155,7 +155,7 @@
                 <div>
                     <label for="node-rpc">Node RPC:</label>
                     <input type="text" id="node-rpc" name="node-rpc" placeholder="(optional)"
-                        title="Enter the RPC URL for the node. This should be an Optimism Mainnet WebSockets RPC URL.">
+                        title="Enter the RPC URL for the node. This should be an Optimism Mainnet WebSockets RPC URL, for example: wss://optimism-mainnet.infura.io/v3/YOUR-API-KEY">
                 </div>
             </details>
         </div>
@@ -163,7 +163,7 @@
     </form>
 
     <div id="node-dirs">
-        <h2>Existing home folders</h2>
+        <h2>Previously booted nodes</h2>
         <ul id="node-dirs-list"></ul>
     </div>
     <script src="./main.js"></script>
