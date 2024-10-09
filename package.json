@@ -1,10 +1,9 @@
 {
   "name": "kinode-desktop",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Kinode, for the desktop",
   "main": "index.js",
   "scripts": {
-    "electron": "electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
@@ -17,21 +16,22 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "build/mac/nodes",
+        "to": "Resources/nodes",
+        "filter": [
+          "**/*"
+        ]
       }
-    ],
-    "mas": {
-      "type": "distribution",
-      "category": "public.app-category.productivity",
-      "entitlements": "entitlements.plist",
-      "icon": "icons/icon.ico",
-      "binaries": [
-        "dist/mas/kinode-desktop.app/Contents/Resources/bin/kinode"
-      ]
-    },
-    "mac": {
-      "entitlements": "entitlements.plist",
-      "entitlementsInherit": "entitlements.plist"
-    }
+    ]
+  },
+  "mac": {
+    "icon": "./icons/icon.icns",
+    "category": "public.app-category.utilities"
+  },
+  "win": {
+    "icon": "./icons/icon.png"
   },
   "repository": {
     "type": "git",
@@ -58,6 +58,8 @@
     "electron-root-path": "^1.1.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "electron": "^32.1.2",
+    "electron-root-path": "^1.1.0"
   }
 }

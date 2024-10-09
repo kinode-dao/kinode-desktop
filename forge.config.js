@@ -3,42 +3,33 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
   packagerConfig: {
-    icon: 'icons/icon.png',
+    icon: 'icons/icon.icns',
     asar: true,
-    osxSign: {
-      hardenedRuntime: true,
-      gatekeeperAssess: false,
-      entitlements: 'entitlements.plist',
-      'entitlements-inherit': 'entitlements.plist',
-      verbose: true,
-    },
-    osxNotarize: {
-      appleId: process.env.APPLE_ID,
-      appleIdPassword: process.env.APPLE_PASSWORD,
-      teamId: process.env.APPLE_TEAM_ID
-    }
+    // osxSign: {},
+    // osxNotarize: {
+    //   tool: 'notarytool',
+    //   appleId: process.env.APPLE_ID,
+    //   appleIdPassword: process.env.APPLE_PASSWORD,
+    //   teamId: process.env.APPLE_TEAM_ID
+    // }
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {
-        setupIcon: 'icons/icon.ico'
-      },
+      config: {},
+    },
+    {
+      name: '@electron-forge/maker-zip',
+      platforms: ['darwin'],
     },
     {
       name: '@electron-forge/maker-dmg',
-      config: {
-        icon: 'icons/icon.ico'
-      }
+      config: {},
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {
-        options: {
-          icon: 'icons/icon.png'
-        }
-      },
+      config: {},
     },
     {
       name: '@electron-forge/maker-rpm',
@@ -70,7 +61,7 @@ module.exports = {
           owner: 'kinode-dao',
           name: 'kinode-desktop'
         },
-        prerelease: true,
+        prerelease: false,
         generateReleaseNotes: true
       }
     }

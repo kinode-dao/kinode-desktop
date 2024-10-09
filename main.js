@@ -10,7 +10,7 @@ const nodePort = document.querySelector('#node-port');
 const nodeRpc = document.querySelector('#node-rpc');
 
 // populate node dirs list with nodes from backend
-ipcRenderer.on('nodes', (event, nodes) => {
+ipcRenderer.on('nodes', (_event, nodes) => {
     const nodeDirsList = document.querySelector('#node-dirs-list');
     nodeDirsList.innerHTML = '';
     nodes.forEach(node => {

@@ -35,7 +35,7 @@ const homeFoldersPath =
 
 const binariesPath =
     IS_PROD && isPackaged
-        ? path.join(path.dirname(getAppPath()), '..', './Resources')
+        ? path.join(path.dirname(getAppPath()), '..', './Resources/bin')
         : path.join(root, './build', platform);
 
 const execPath = path.resolve(path.join(binariesPath, './kinode'));
