@@ -7,6 +7,8 @@ const { spawn } = require('child_process');
 const root = rootPath;
 const isPackaged = app.isPackaged;
 
+let kinode;
+
 let platform;
 switch (process.platform) {
     case 'aix':
@@ -72,6 +74,11 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
+    // send SIGTERM to kinode
+    if (kinode) {
+        kinode.kill('SIGTERM');
+    }
+
     if (process.platform !== 'darwin') {
         app.quit()
     }
@@ -80,13 +87,25 @@ app.on('window-all-closed', () => {
 ipcMain.on("node-form", (event, formData) => {
     let args = [path.join(homeFoldersPath, formData.nodeName), '--detached'];
 
-    if (formData.nodePort) {
-        args.push('--port', formData.nodePort);
-    }
+    args.push('--port', formData.nodePort || '8080');
 
     if (formData.nodeRpc) {
         args.push('--rpc', formData.nodeRpc);
     }
     console.log(args);
-    spawn(execPath, args, {});
+
+    kinode = spawn(execPath, args, {});
+
+    kinode.stdout.on('data', (data) => {
+        console.log(`kinode stdout: ${data}`);
+    });
+
+    kinode.stderr.on('data', (data) => {
+        console.error(`kinode stderr: ${data}`);
+    });
+
+    kinode.on('close', (code) => {
+        console.log(`kinode process exited with code ${code}`);
+        kinode = null;
+    });
 });

@@ -43,6 +43,7 @@ form.addEventListener('submit', (event) => {
 });
 
 function checkAndRedirect(port) {
+    console.log(`Redirecting to http://localhost:${port}`);
     fetch(`http://localhost:${port}`, { mode: 'no-cors' })
         .then(() => {
             window.location.href = `http://localhost:${port}`;
