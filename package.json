@@ -8,24 +8,6 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "build": {
-    "extraFiles": [
-      {
-        "from": "build/mac/bin",
-        "to": "Resources/bin",
-        "filter": [
-          "**/*"
-        ]
-      },
-      {
-        "from": "build/mac/nodes",
-        "to": "Resources/nodes",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ]
-  },
   "mac": {
     "icon": "./icons/icon.icns",
     "category": "public.app-category.utilities"

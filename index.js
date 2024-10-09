@@ -4,7 +4,6 @@ const path = require('path');
 const { rootPath } = require('electron-root-path');
 const { spawn } = require('child_process');
 
-const IS_PROD = process.env.NODE_ENV === 'production';
 const root = rootPath;
 const isPackaged = app.isPackaged;
 
@@ -29,14 +28,14 @@ switch (process.platform) {
 }
 
 const homeFoldersPath =
-    IS_PROD && isPackaged
-        ? path.join(path.dirname(getAppPath()), '..', './Resources/nodes')
+    isPackaged
+        ? path.join(process.resourcesPath, 'nodes')
         : path.join(root, './nodes');
 
 const binariesPath =
-    IS_PROD && isPackaged
-        ? path.join(path.dirname(getAppPath()), '..', './Resources/bin')
-        : path.join(root, './build', platform);
+    isPackaged
+        ? path.join(process.resourcesPath, 'bin', platform)
+        : path.join(root, './bin', platform);
 
 const execPath = path.resolve(path.join(binariesPath, './kinode'));
 
