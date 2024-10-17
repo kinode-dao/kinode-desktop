@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, Menu, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { rootPath } = require('electron-root-path');
@@ -208,7 +208,7 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.on('node-form', (event, formData) => {
-    let args = [path.join(homeFoldersPath, formData.nodeName), '--detached'];
+    let args = [formData.nodeName, '--detached'];
 
     homePort = formData.nodePort || '8080';
     args.push('--port', homePort);
@@ -240,4 +240,16 @@ ipcMain.on('go-home', (event, port) => {
     homePort = port;
     console.log('main: go-home');
     event.sender.loadURL(`http://localhost:${port}`);
+});
+
+ipcMain.on('open-directory-dialog', (event) => {
+    dialog.showOpenDialog({
+        properties: ['openDirectory']
+    }).then(result => {
+        if (!result.canceled && result.filePaths.length > 0) {
+            event.sender.send('selected-directory', result.filePaths[0]);
+        }
+    }).catch(err => {
+        console.log(err);
+    });
 });

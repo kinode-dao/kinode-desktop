@@ -140,9 +140,10 @@
     <h1>Kinode</h1>
     <form id="node-form">
         <div>
-            <label for="node-name">Node name:</label>
-            <input type="text" id="node-name" name="node-name" required
-                title="The node's name will be used to store its home folder on disk. Note that this does not register the name in Kinode.">
+            <label for="node-name">Node directory:</label>
+            <input type="text" id="node-name" name="node-name" readonly
+                title="Select the node's directory to store its home folder on disk. Note that this does not register the name in Kinode.">
+            <button id="select-dir">Select Directory</button>
         </div>
         <div>
             <details>
