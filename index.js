@@ -59,24 +59,24 @@ const createWindow = () => {
             nodeIntegrationInSubFrames: true, //for subContent nodeIntegration Enable
             webviewTag: true //for webView
         }
-    })
+    });
 
-    win.loadFile('index.html')
+    win.loadFile('index.html');
 
     // read nodes from homeFoldersPath and pass to frontend
     const nodes = fs.readdirSync(homeFoldersPath);
     win.webContents.send('nodes', nodes);
-}
+};
 
 app.whenReady().then(() => {
-    createWindow()
+    createWindow();
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow()
+            createWindow();
         }
-    })
-})
+    });
+});
 
 app.on('window-all-closed', () => {
     // send SIGTERM to kinode
@@ -85,9 +85,9 @@ app.on('window-all-closed', () => {
     }
 
     if (process.platform !== 'darwin') {
-        app.quit()
+        app.quit();
     }
-})
+});
 
 ipcMain.on("node-form", (event, formData) => {
     let args = [path.join(homeFoldersPath, formData.nodeName), '--detached'];
