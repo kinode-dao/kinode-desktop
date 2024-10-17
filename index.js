@@ -39,7 +39,12 @@ const binariesPath =
         ? path.join(process.resourcesPath, 'bin', platform)
         : path.join(root, './bin', platform);
 
-const execPath = path.resolve(path.join(binariesPath, './kinode'));
+const binaryName =
+    platform == 'win'
+        ? 'kinode.exe'
+        : 'kinode';
+
+const execPath = path.resolve(path.join(binariesPath, binaryName));
 
 const createWindow = () => {
     const win = new BrowserWindow({
