@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 function sendToBackend(formData) {
-    ipcRenderer.send("node-form", formData);
+    ipcRenderer.send('node-form', formData);
 }
 
 const form = document.querySelector('#node-form');
@@ -39,14 +39,15 @@ form.addEventListener('submit', (event) => {
 
     sendToBackend(formData);
 
-    checkAndRedirect((nodePort.value) ? nodePort.value : "8080");
+    checkAndRedirect((nodePort.value) ? nodePort.value : '8080');
+    console.log('submit done');
 });
 
 function checkAndRedirect(port) {
     console.log(`Redirecting to http://localhost:${port}`);
     fetch(`http://localhost:${port}`, { mode: 'no-cors' })
         .then(() => {
-            window.location.href = `http://localhost:${port}`;
+            ipcRenderer.send('go-home', port);
         })
         .catch(() => {
             setTimeout(() => checkAndRedirect(port), 1000);
