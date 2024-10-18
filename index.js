@@ -121,12 +121,7 @@ const template = [
         submenu: [
             { role: 'reload' },
             { role: 'forceReload' },
-            //{ role: 'toggleDevTools' },
-            {
-                label: 'Toggle Developer Tools',
-                accelerator: 'CommandOrControl+Shift+I',
-                click: () => win.webContents.openDevTools({ mode: 'detach' }),
-            },
+            { role: 'toggleDevTools' },
             { type: 'separator' },
             { role: 'resetZoom' },
             { role: 'zoomIn' },
