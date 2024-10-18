@@ -1,15 +1,23 @@
-const { app, BrowserWindow, dialog, Menu, ipcMain } = require('electron');
+const { app, BrowserView, BrowserWindow, dialog, Menu, ipcMain, WebContentsView } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { rootPath } = require('electron-root-path');
 const { spawn } = require('child_process');
 
-const root = rootPath;
 const isPackaged = app.isPackaged;
+
+const width = 1200;
+const height = 800;
 
 let kinode;
 let homePort;
 homePort = '8080'; // default
+//let noTurningBack;
+//noTurningBack = false;
+
+let win;
+let splashScreenView;
+let nodeView;
 
 let platform;
 switch (process.platform) {
@@ -34,12 +42,12 @@ switch (process.platform) {
 const homeFoldersPath =
     isPackaged
         ? path.join(process.resourcesPath, 'nodes')
-        : path.join(root, './nodes');
+        : path.join(rootPath, './nodes');
 
 const binariesPath =
     isPackaged
         ? path.join(process.resourcesPath, 'bin', platform)
-        : path.join(root, './bin', platform);
+        : path.join(rootPath, './bin', platform);
 
 const binaryName =
     platform == 'win'
@@ -77,6 +85,7 @@ const template = [
                 label: 'Home',
                 accelerator: 'CommandOrControl+H',
                 click: () => {
+                    //nodeView.webContents.loadURL(`http://localhost:${homePort}`);
                     BrowserWindow.getAllWindows().forEach(win => {
                         win.loadURL(`http://localhost:${homePort}`);
                     });
@@ -122,7 +131,12 @@ const template = [
         submenu: [
             { role: 'reload' },
             { role: 'forceReload' },
-            { role: 'toggleDevTools' },
+            //{ role: 'toggleDevTools' },
+            {
+                label: 'Toggle Developer Tools',
+                accelerator: 'CommandOrControl+Shift+I',
+                click: () => win.webContents.openDevTools({ mode: 'detach' }),
+            },
             { type: 'separator' },
             { role: 'resetZoom' },
             { role: 'zoomIn' },
@@ -167,9 +181,11 @@ const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
 
 const createWindow = () => {
-    const win = new BrowserWindow({
-        width: 1200,
-        height: 800,
+    win = new BrowserWindow({
+        //width: 1200,
+        //height: 800,
+        width: width,
+        height: height,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -181,7 +197,63 @@ const createWindow = () => {
         }
     });
 
-    win.loadFile('index.html');
+    console.log(`${path.join(rootPath, 'preload.js')}`);
+
+    //splashScreenView = new WebContentsView();
+    //win.contentView.addChildView(splashScreenView);
+    //splashScreenView.webContents.loadFile('index.html');
+    //splashScreenView.setBounds({ x: 0, y: 0, width: width, height: height });
+    //
+    splashScreenView = new BrowserView({
+        //width: width,
+        //height: height,
+        webPreferences: {
+            preload: path.join(rootPath, 'preload.js')
+        }
+    });
+    win.setBrowserView(splashScreenView);
+    splashScreenView.setBounds({ x: 0, y: 0, width: width, height: height });
+    splashScreenView.setAutoResize({ width: true, height: true });
+    splashScreenView.webContents.loadFile('index.html');
+    win.setTopBrowserView(splashScreenView);
+
+    //win.loadFile('index.html');
+
+    //// disable back/forward
+    //win.addEventListener('mouseup', (event) => {
+    //    if (event.button === 3 || event.button === 4) {
+    //        event.preventDefault();
+    //        event.stopPropagation();
+    //    }
+    //});
+
+    //const disableMouseNavigation = () => {
+    //    const disableNavigationScript = `
+    //      document.addEventListener('mouseup', (event) => {
+    //        if (event.button === 3 || event.button === 4) {
+    //          event.preventDefault();
+    //          event.stopPropagation();
+    //        }
+    //      });
+    //    `;
+    //   win.webContents.executeJavaScript(disableNavigationScript);
+    //};
+    //win.webContents.on('dom-ready', () => {
+    //  disableMouseNavigation();
+    //});
+
+    //win.webContents.on('did-start-navigation', (event) => {
+    //    console.log(`main did-start-navigation ${event.url}`);
+    //    //console.log(`main did-start-navigation ${event.url} ${event.isSameDocument} ${event.isMainFrame} ${event.frame} ${event.initiator}`);
+    //    //if (event.url.startsWith('file')) {
+    //    //    if (noTurningBack) {
+    //    //        win.webContents.stop();
+    //    //        //win.webContents.loadURL(`http://localhost:${homePort}`);
+    //    //    } else {
+    //    //        noTurningBack = true;
+    //    //    }
+    //    //}
+    //});
 
     // read nodes from homeFoldersPath and pass to frontend
     const nodes = fs.readdirSync(homeFoldersPath);
@@ -196,16 +268,19 @@ app.on('activate', () => {
     }
 });
 
-app.on('window-all-closed', () => {
+const handleShutdown = (haveQuitted) => {
     // send SIGTERM to kinode
     if (kinode) {
         kinode.kill('SIGTERM');
     }
 
-    if (process.platform !== 'darwin') {
+    if (process.platform !== 'darwin' && !haveQuitted) {
         app.quit();
     }
-});
+};
+
+app.on('window-all-closed', () => { handleShutdown(false) });
+app.on('before-quit', () => { handleShutdown(true) });
 
 ipcMain.on('node-form', (event, formData) => {
     let args = [formData.nodeName, '--detached'];
@@ -232,24 +307,40 @@ ipcMain.on('node-form', (event, formData) => {
         console.log(`kinode process exited with code ${code}`);
         kinode = null;
     });
-
-    console.log('node-form done');
 });
 
 ipcMain.on('go-home', (event, port) => {
     homePort = port;
     console.log('main: go-home');
-    event.sender.loadURL(`http://localhost:${port}`);
+
+    //nodeView = new WebContentsView();
+    //win.contentView.addChildView(nodeView);
+    //nodeView.webContents.loadURL(`http://localhost:${port}`);
+    //win.contentView.removeChildView(splashScreenView);
+    //nodeView.setBounds({ x: 0, y: 0, width: width, height: height });
+    //
+    //nodeView = new BrowserView();
+    //win.setBrowserView(nodeView);
+    //nodeView.setBounds({ x: 0, y: 0, width: width, height: height });
+    //nodeView.webContents.loadURL(`http://localhost:${port}`);
+    //nodeView.setAutoResize({ width: true, height: true });
+    //
+    win.removeBrowserView(splashScreenView);
+    win.loadURL(`http://localhost:${port}`);
 });
 
-ipcMain.on('open-directory-dialog', (event) => {
-    dialog.showOpenDialog({
-        properties: ['openDirectory']
-    }).then(result => {
-        if (!result.canceled && result.filePaths.length > 0) {
-            event.sender.send('selected-directory', result.filePaths[0]);
-        }
-    }).catch(err => {
-        console.log(err);
-    });
+ipcMain.on('action', (event, action) => {
+    console.log(`main: ${action}`);
+
+    if (action === 'open-directory-dialog') {
+        dialog.showOpenDialog({
+            properties: ['openDirectory']
+        }).then(result => {
+            if (!result.canceled && result.filePaths.length > 0) {
+                event.sender.send('selected-directory', result.filePaths[0]);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 });
