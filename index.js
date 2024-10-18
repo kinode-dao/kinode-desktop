@@ -1,5 +1,4 @@
-const { app, BrowserView, BrowserWindow, dialog, Menu, ipcMain, WebContentsView } = require('electron');
-const fs = require('fs');
+const { app, BrowserView, BrowserWindow, dialog, Menu, ipcMain } = require('electron');
 const path = require('path');
 const { rootPath } = require('electron-root-path');
 const { spawn } = require('child_process');
@@ -15,7 +14,6 @@ homePort = '8080'; // default
 
 let win;
 let splashScreenView;
-let nodeView;
 
 let platform;
 switch (process.platform) {
@@ -36,11 +34,6 @@ switch (process.platform) {
     default:
         platform = 'unknown';
 }
-
-const homeFoldersPath =
-    isPackaged
-        ? path.join(process.resourcesPath, 'nodes')
-        : path.join(rootPath, './nodes');
 
 const binariesPath =
     isPackaged
@@ -83,7 +76,6 @@ const template = [
                 label: 'Home',
                 accelerator: 'CommandOrControl+H',
                 click: () => {
-                    //nodeView.webContents.loadURL(`http://localhost:${homePort}`);
                     BrowserWindow.getAllWindows().forEach(win => {
                         win.loadURL(`http://localhost:${homePort}`);
                     });
