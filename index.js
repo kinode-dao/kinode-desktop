@@ -2,6 +2,12 @@ const { app, BrowserView, BrowserWindow, dialog, Menu, ipcMain } = require('elec
 const path = require('path');
 const { spawn } = require('child_process');
 
+// https://www.electronforge.io/config/makers/squirrel.windows#handling-startup-events
+// https://github.com/electron/windows-installer?tab=readme-ov-file#handling-squirrel-events
+if (require('electron-squirrel-startup')) {
+    return;
+}
+
 const width = 1200;
 const height = 800;
 
