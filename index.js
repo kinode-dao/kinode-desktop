@@ -12,8 +12,6 @@ const height = 800;
 let kinode;
 let homePort;
 homePort = '8080'; // default
-//let noTurningBack;
-//noTurningBack = false;
 
 let win;
 let splashScreenView;
@@ -199,14 +197,7 @@ const createWindow = () => {
 
     console.log(`${path.join(rootPath, 'preload.js')}`);
 
-    //splashScreenView = new WebContentsView();
-    //win.contentView.addChildView(splashScreenView);
-    //splashScreenView.webContents.loadFile('index.html');
-    //splashScreenView.setBounds({ x: 0, y: 0, width: width, height: height });
-    //
     splashScreenView = new BrowserView({
-        //width: width,
-        //height: height,
         webPreferences: {
             preload: path.join(rootPath, 'preload.js')
         }
@@ -216,48 +207,6 @@ const createWindow = () => {
     splashScreenView.setAutoResize({ width: true, height: true });
     splashScreenView.webContents.loadFile('index.html');
     win.setTopBrowserView(splashScreenView);
-
-    //win.loadFile('index.html');
-
-    //// disable back/forward
-    //win.addEventListener('mouseup', (event) => {
-    //    if (event.button === 3 || event.button === 4) {
-    //        event.preventDefault();
-    //        event.stopPropagation();
-    //    }
-    //});
-
-    //const disableMouseNavigation = () => {
-    //    const disableNavigationScript = `
-    //      document.addEventListener('mouseup', (event) => {
-    //        if (event.button === 3 || event.button === 4) {
-    //          event.preventDefault();
-    //          event.stopPropagation();
-    //        }
-    //      });
-    //    `;
-    //   win.webContents.executeJavaScript(disableNavigationScript);
-    //};
-    //win.webContents.on('dom-ready', () => {
-    //  disableMouseNavigation();
-    //});
-
-    //win.webContents.on('did-start-navigation', (event) => {
-    //    console.log(`main did-start-navigation ${event.url}`);
-    //    //console.log(`main did-start-navigation ${event.url} ${event.isSameDocument} ${event.isMainFrame} ${event.frame} ${event.initiator}`);
-    //    //if (event.url.startsWith('file')) {
-    //    //    if (noTurningBack) {
-    //    //        win.webContents.stop();
-    //    //        //win.webContents.loadURL(`http://localhost:${homePort}`);
-    //    //    } else {
-    //    //        noTurningBack = true;
-    //    //    }
-    //    //}
-    //});
-
-    // read nodes from homeFoldersPath and pass to frontend
-    const nodes = fs.readdirSync(homeFoldersPath);
-    win.webContents.send('nodes', nodes);
 };
 
 app.whenReady().then(createWindow);
@@ -313,18 +262,6 @@ ipcMain.on('go-home', (event, port) => {
     homePort = port;
     console.log('main: go-home');
 
-    //nodeView = new WebContentsView();
-    //win.contentView.addChildView(nodeView);
-    //nodeView.webContents.loadURL(`http://localhost:${port}`);
-    //win.contentView.removeChildView(splashScreenView);
-    //nodeView.setBounds({ x: 0, y: 0, width: width, height: height });
-    //
-    //nodeView = new BrowserView();
-    //win.setBrowserView(nodeView);
-    //nodeView.setBounds({ x: 0, y: 0, width: width, height: height });
-    //nodeView.webContents.loadURL(`http://localhost:${port}`);
-    //nodeView.setAutoResize({ width: true, height: true });
-    //
     win.removeBrowserView(splashScreenView);
     win.loadURL(`http://localhost:${port}`);
 });
