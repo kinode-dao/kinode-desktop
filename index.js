@@ -1,9 +1,6 @@
 const { app, BrowserView, BrowserWindow, dialog, Menu, ipcMain } = require('electron');
 const path = require('path');
-const { rootPath } = require('electron-root-path');
 const { spawn } = require('child_process');
-
-const isPackaged = app.isPackaged;
 
 const width = 1200;
 const height = 800;
@@ -36,9 +33,9 @@ switch (process.platform) {
 }
 
 const binariesPath =
-    isPackaged
+    app.isPackaged
         ? path.join(process.resourcesPath, 'bin', platform)
-        : path.join(rootPath, './bin', platform);
+        : path.join(__dirname, './bin', platform);
 
 const binaryName =
     platform == 'win'
@@ -182,11 +179,14 @@ const createWindow = () => {
         }
     });
 
-    console.log(`${path.join(rootPath, 'preload.js')}`);
+    const preloadPath =
+        app.isPackaged
+            ? path.join(process.resourcesPath, 'app.asar', 'preload.js')
+            : path.join(__dirname, 'preload.js');
 
     splashScreenView = new BrowserView({
         webPreferences: {
-            preload: path.join(rootPath, 'preload.js')
+            preload: preloadPath
         }
     });
     win.setBrowserView(splashScreenView);
