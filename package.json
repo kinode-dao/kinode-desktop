@@ -1,6 +1,6 @@
 {
   "name": "kinode-desktop",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Kinode, for the desktop",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/kinode-dao/kinode-desktop.git"
   },
-  "author": "dr-frmr & nick1udwig",
+  "author": "Sybil Technologies AG",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/kinode-dao/kinode-desktop/issues"
