@@ -8,11 +8,11 @@ Currently supports Windows and Linux.
 
 ## Tour
 
-We're excited to release the Kinode Desktop beta (0.4.0) for Windows and Linux! You can download the binaries here: https://github.com/kinode-dao/kinode-desktop/releases
+We're excited to release the Kinode Desktop beta for Windows and Linux! You can download the binaries here: https://github.com/kinode-dao/kinode-desktop/releases
 
 ![image](https://github.com/user-attachments/assets/22314b54-61ab-4e65-a1c4-0765ef5f02f5)
 
-If you're a Linux user, it should Just Work
+If you're a Linux user, it should Just Work™.
 
 If you're a Windows user, during install you will probably see a warning about an "Unrecognized app" and "Unknown publisher". This is expected, and we're working on removing this warning in a future version
 
